@@ -1,0 +1,5 @@
+[all:vars]
+node_version=v12.4.0
+
+[centos]
+your_host_ip1

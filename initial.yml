@@ -1,0 +1,9 @@
+---
+
+- hosts: centos
+  remote_user: root
+  become: True
+  roles:
+  - initial
+  - docker
+  - vimrc

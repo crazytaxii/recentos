@@ -1,0 +1,47 @@
+---
+
+- name: Download binary package
+  get_url:
+    url: "https://nodejs.org/download/release/{{ node_version }}/node-{{ node_version }}-linux-x64.tar.gz"
+    dest: "~/node-{{ node_version }}-linux-x64.tar.gz"
+
+- name: Create dir for nodejs
+  file:
+    path: /usr/local/lib/nodejs
+    state: directory
+
+- name: Extract files
+  unarchive:
+    src: "~/node-{{ node_version }}-linux-x64.tar.gz"
+    dest: /usr/local/lib/nodejs
+    remote_src: yes
+
+- name: Check zshrc exists
+  stat:
+    path: ~/.zshrc
+  register: stat_result
+
+- name: Add env to zshrc
+  lineinfile:
+    path: ~/.zshrc
+    insertafter: EOF
+    line: "\n# Nodejs\nexport PATH=/usr/local/lib/nodejs/node-{{ node_version }}-linux-x64/bin:$PATH"
+  when: stat_result.stat.exists
+
+- name: Check bashrc exists
+  stat:
+    path: ~/.bashrc
+  register: stat_result
+
+- name: Add env to bashrc
+  lineinfile:
+    path: ~/.bashrc
+    insertafter: EOF
+    line: "\n# Nodejs\nexport PATH=/usr/local/lib/nodejs/node-{{ node_version }}-linux-x64/bin:$PATH"
+  when: stat_result.stat.exists
+
+- name: Check node
+  command: /usr/local/lib/nodejs/node-{{ node_version }}-linux-x64/bin/node --version
+
+- name: Check npm
+  command: /usr/local/lib/nodejs/node-{{ node_version }}-linux-x64/bin/npm --version

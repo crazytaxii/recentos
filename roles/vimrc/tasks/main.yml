@@ -1,0 +1,9 @@
+---
+
+- name: Clone amix/vimrc git repo
+  git:
+    repo: https://github.com/amix/vimrc
+    dest: ~/.vim_runtime
+
+- name: Install basic version
+  script: ~/.vim_runtime/install_basic_vimrc.sh

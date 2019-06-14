@@ -1,0 +1,20 @@
+---
+
+- name: Disable firewall
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+- name: Upgrade all packages
+  yum:
+    name: "*"
+    state: latest
+
+- name: Install packages
+  yum:
+    name:
+    - git
+    - tree
+    - vim
+    - zsh
